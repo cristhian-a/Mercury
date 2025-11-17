@@ -1,12 +1,15 @@
 package com.next.graphics;
 
+import lombok.Getter;
+
 import javax.swing.JFrame;
 
-public class ProgramWindow {
+@Getter
+public class Window {
 
-    private JFrame window;
+    private final JFrame window;
 
-    public ProgramWindow() {
+    public Window() {
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
@@ -21,5 +24,9 @@ public class ProgramWindow {
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+    }
+
+    public void repaint() {
+        window.repaint();
     }
 }
