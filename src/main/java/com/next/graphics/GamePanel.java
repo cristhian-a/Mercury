@@ -1,5 +1,8 @@
 package com.next.graphics;
 
+import com.next.core.entity.Player;
+import com.next.io.KeyHandler;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,19 +13,28 @@ public class GamePanel extends JPanel {
     private final int MAX_SCREEN_COL = 16;
     private final int MAX_SCREEN_ROW = 12;
 
-    private final int TILE_SIZE;
-    private final int WIDTH;
-    private final int HEIGHT;
+    public final int TILE_SIZE;
+    public final int WIDTH;
+    public final int HEIGHT;
 
-    public GamePanel() {
+    private KeyHandler keyHandler;
+    public Player player;
+
+    public GamePanel(KeyHandler keyHandler) {
         super();
         TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
         WIDTH = TILE_SIZE * MAX_SCREEN_COL;
         HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
 
+        this.keyHandler = keyHandler;
+
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
+        this.addKeyListener(keyHandler);
+        this.setFocusable(true);
+
+        player = new Player(this, keyHandler);
     }
 
     @Override
@@ -30,8 +42,7 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.WHITE);
-        g2.fillRect(100, 100, TILE_SIZE, TILE_SIZE);
+        player.render(g2);
         g2.dispose();
     }
 }

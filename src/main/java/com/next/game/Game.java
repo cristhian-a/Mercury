@@ -1,6 +1,7 @@
 package com.next.game;
 
 import com.next.graphics.Window;
+import com.next.io.KeyHandler;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,14 +11,16 @@ public class Game implements Runnable{
     private Thread mainThread;
     private boolean isRunning;
     private Window window;
+    private KeyHandler keyHandler;
 
     public Game() {
         window = new Window();
+        keyHandler = new KeyHandler();
     }
 
     public synchronized void start() {
         isRunning = true;
-        window.open();
+        window.open(keyHandler);
 
         mainThread = new Thread(this);
         mainThread.start();
@@ -33,8 +36,7 @@ public class Game implements Runnable{
     }
 
     private void tick() {
-        // does all the shit here
-        System.out.println("Hello world!");
+        window.getPanel().player.tick();
     }
 
     private void render() {
@@ -43,9 +45,34 @@ public class Game implements Runnable{
 
     @Override
     public void run() {
+        //Adjust frame rate(fps)
+        long lastTime = System.nanoTime();
+        double amountOfTicks = 60.0;
+        double ns = 1000000000 / amountOfTicks; // 1 million = 1 sec
+        double delta = 0;
+
+        // Debug info *(frame rate)*
+        int frames = 0;
+        double timer = System.currentTimeMillis();
+
         while (isRunning) {
-            tick();
-            render();
+            long now = System.nanoTime();
+            delta += (now - lastTime) / ns;
+            lastTime = now;
+
+            if (delta >= 1) {
+                this.tick();
+                this.render();
+                frames++;   // Debug info *(frame rate)*
+                delta--;
+            }
+
+            // Debug info *(frame rate)*
+            if (System.currentTimeMillis() - timer >= 1000) {
+                System.out.println("FPS: " + frames);
+                frames = 0;
+                timer = System.currentTimeMillis();
+            }
         }
 
         stop();
