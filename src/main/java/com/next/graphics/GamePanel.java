@@ -19,7 +19,14 @@ public class GamePanel extends JPanel {
     public final int HEIGHT;
 
     private SpriteLoader spriteLoader;
+
+    // World setting
     public World world;
+    public final int MAX_WORD_COL;
+    public final int MAX_WORLD_ROW;
+    public final int WORLD_WIDTH;
+    public final int WORLD_HEIGHT;
+
     private KeyHandler keyHandler;
     public Player player;
 
@@ -28,6 +35,11 @@ public class GamePanel extends JPanel {
         TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
         WIDTH = TILE_SIZE * MAX_SCREEN_COL;
         HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
+
+        MAX_WORD_COL = 50;
+        MAX_WORLD_ROW = 50;
+        WORLD_WIDTH = TILE_SIZE * MAX_WORD_COL;
+        WORLD_HEIGHT = TILE_SIZE * MAX_WORLD_ROW;
 
         this.keyHandler = keyHandler;
 

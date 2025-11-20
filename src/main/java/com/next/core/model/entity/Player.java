@@ -12,6 +12,9 @@ import java.awt.image.BufferedImage;
 @EqualsAndHashCode(callSuper = true)
 public class Player extends Entity {
 
+    private final int screenX;
+    private final int screenY;
+
     private GamePanel panel;
     private KeyHandler keyHandler;
 
@@ -19,12 +22,15 @@ public class Player extends Entity {
         this.panel = panel;
         this.keyHandler = keyHandler;
 
+        this.screenX = panel.WIDTH / 2 - (panel.TILE_SIZE / 2);
+        this.screenY = panel.HEIGHT / 2 - (panel.TILE_SIZE / 2);
+
         setDefaultValues();
     }
 
     public void setDefaultValues() {
-        this.x = 100;
-        this.y = 100;
+        this.worldX = panel.TILE_SIZE * 23;
+        this.worldY = panel.TILE_SIZE * 21;
         this.speed = 4;
 
         this.maxIndex = 1;
@@ -37,22 +43,22 @@ public class Player extends Entity {
         this.direction = Orientation.NONE;
 
         if (keyHandler.upPressed) {
-            this.y -= this.speed;
+            this.worldY -= this.speed;
             this.direction = Orientation.UP;
         }
 
         if (keyHandler.downPressed) {
-            this.y += this.speed;
+            this.worldY += this.speed;
             this.direction = Orientation.DOWN;
         }
 
         if (keyHandler.leftPressed) {
-            this.x -= this.speed;
+            this.worldX -= this.speed;
             this.direction = Orientation.LEFT;
         }
 
         if (keyHandler.rightPressed) {
-            this.x += this.speed;
+            this.worldX += this.speed;
             this.direction = Orientation.RIGHT;
         }
 
@@ -76,6 +82,6 @@ public class Player extends Entity {
             default -> this.sprite;
         };
 
-        g2.drawImage(image, x, y, panel.TILE_SIZE, panel.TILE_SIZE, null);
+        g2.drawImage(image, screenX, screenY, panel.TILE_SIZE, panel.TILE_SIZE, null);
     }
 }

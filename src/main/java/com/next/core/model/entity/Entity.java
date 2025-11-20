@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 
 @Data
 public abstract class Entity {
-    protected int x;
-    protected int y;
+    protected int worldX;
+    protected int worldY;
     protected int speed;
 
     protected BufferedImage sprite;

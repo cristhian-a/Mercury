@@ -32,7 +32,7 @@ public class Game implements Runnable{
         try {
             spriteSheet = new SpriteSheet("/spritesheet.png");
             int tileSize = 16; // window.getPanel().ORIGINAL_TILE_SIZE; // Should get this value from the same place as the panel
-            spriteLoader = new SpriteLoader(spriteSheet, 26, tileSize, tileSize, 10, 10);
+            spriteLoader = new SpriteLoader(spriteSheet, 100, tileSize, tileSize, 10, 10);
 
             window.open(keyHandler, spriteLoader);
             spriteLoader.setPlayerSprites(window.getPanel().player);

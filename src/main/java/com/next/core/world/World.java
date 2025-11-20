@@ -20,16 +20,19 @@ public class World {
         this.spriteLoader = loader;
         this.panel = panel;
         this.tiles = new Tile[10];
-        this.tileMap = new int[panel.MAX_SCREEN_ROW][panel.MAX_SCREEN_COL];
+        this.tileMap = new int[panel.MAX_WORLD_ROW][panel.MAX_WORD_COL];
 
         loadTiles();
-        loadMap("/maps/map1.txt");
+        loadMap("/maps/world_01.txt");
     }
 
     private void loadTiles() {
-        tiles[0] = new Tile(spriteLoader.getSprite(0), false);
-        tiles[1] = new Tile(spriteLoader.getSprite(1), false);
-        tiles[2] = new Tile(spriteLoader.getSprite(25), false);
+        tiles[0] = new Tile(spriteLoader.getSprite(0), false);  // grass
+        tiles[1] = new Tile(spriteLoader.getSprite(1), false);  // wall
+        tiles[2] = new Tile(spriteLoader.getSprite(25), false); // water
+        tiles[3] = new Tile(spriteLoader.getSprite(27), false); // dirt
+        tiles[4] = new Tile(spriteLoader.getSprite(26), false); // tree
+        tiles[5] = new Tile(spriteLoader.getSprite(28), false); // sand
     }
 
     public void loadMap(String path) {
@@ -37,11 +40,11 @@ public class World {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
             int row = 0;
 
-            while (row < panel.MAX_SCREEN_ROW) {
+            while (row < panel.MAX_WORLD_ROW) {
                 String line = br.readLine();
                 int col = 0;
 
-                while (col < panel.MAX_SCREEN_COL) {
+                while (col < panel.MAX_WORD_COL) {
                     String[] numbers = line.split(" ");
                     tileMap[row][col] = Integer.parseInt(numbers[col]);
                     col++;
@@ -56,22 +59,29 @@ public class World {
 
     public void render(Graphics2D g2) {
         int row = 0;
-        int y = 0;
 
-        while (row < panel.MAX_SCREEN_ROW) {
+        while (row < panel.MAX_WORLD_ROW) {
             int col = 0;
-            int x = 0;
 
-            while (col < panel.MAX_SCREEN_COL) {
+            while (col < panel.MAX_WORD_COL) {
                 int tileIndex = tileMap[row][col];
                 var image = tiles[tileIndex].getImage();
 
-                g2.drawImage(image, x, y, panel.TILE_SIZE, panel.TILE_SIZE, null);
-                x += panel.TILE_SIZE;
+                int worldX = col * panel.TILE_SIZE;
+                int worldY = row * panel.TILE_SIZE;
+                int x = worldX - panel.player.getWorldX() + panel.player.getScreenX();
+                int y = worldY - panel.player.getWorldY() + panel.player.getScreenY();
+
+                if (worldX + panel.TILE_SIZE > panel.player.getWorldX() - panel.player.getScreenX() &&
+                        worldX - panel.TILE_SIZE < panel.player.getWorldX() + panel.player.getScreenX() &&
+                        worldY + panel.TILE_SIZE > panel.player.getWorldY() - panel.player.getScreenY() &&
+                        worldY - panel.TILE_SIZE < panel.player.getWorldY() + panel.player.getScreenY()
+                ) {
+                    g2.drawImage(image, x, y, panel.TILE_SIZE, panel.TILE_SIZE, null);
+                }
                 col++;
             }
 
-            y += panel.TILE_SIZE;
             row++;
         }
     }
