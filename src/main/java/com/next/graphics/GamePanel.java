@@ -1,6 +1,7 @@
 package com.next.graphics;
 
 import com.next.core.model.entity.Player;
+import com.next.core.world.CollisionChecker;
 import com.next.core.world.World;
 import com.next.io.KeyHandler;
 
@@ -21,11 +22,12 @@ public class GamePanel extends JPanel {
     private SpriteLoader spriteLoader;
 
     // World setting
-    public World world;
     public final int MAX_WORD_COL;
     public final int MAX_WORLD_ROW;
     public final int WORLD_WIDTH;
     public final int WORLD_HEIGHT;
+    public World world;
+    public CollisionChecker collisionChecker;
 
     private KeyHandler keyHandler;
     public Player player;
@@ -51,6 +53,8 @@ public class GamePanel extends JPanel {
 
         player = new Player(this, keyHandler);
         world = new World(this, spriteLoader);
+
+        collisionChecker = new CollisionChecker(this);
     }
 
     @Override

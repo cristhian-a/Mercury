@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 public abstract class Entity {
     protected int worldX;
     protected int worldY;
+    protected int screenX;
+    protected int screenY;
     protected int speed;
 
     protected BufferedImage sprite;
@@ -23,6 +25,9 @@ public abstract class Entity {
     protected int frameTransitionRate;
 
     protected Orientation direction;
+
+    protected Rectangle collisionBox;
+    protected boolean colliding;
 
     public abstract void tick();
     public abstract void render(Graphics2D g2);

@@ -11,5 +11,5 @@ import java.awt.image.BufferedImage;
 @AllArgsConstructor
 public class Tile {
     private BufferedImage image;
-    private boolean collision;
+    private boolean solid;
 }

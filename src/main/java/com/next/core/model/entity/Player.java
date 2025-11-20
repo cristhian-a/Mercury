@@ -12,9 +12,6 @@ import java.awt.image.BufferedImage;
 @EqualsAndHashCode(callSuper = true)
 public class Player extends Entity {
 
-    private final int screenX;
-    private final int screenY;
-
     private GamePanel panel;
     private KeyHandler keyHandler;
 
@@ -24,6 +21,10 @@ public class Player extends Entity {
 
         this.screenX = panel.WIDTH / 2 - (panel.TILE_SIZE / 2);
         this.screenY = panel.HEIGHT / 2 - (panel.TILE_SIZE / 2);
+
+        // adjust box position in relation to the player
+        this.collisionBox = new Rectangle(screenX + 8, screenY + 12, 32, 32);
+        this.colliding = true;
 
         setDefaultValues();
     }
@@ -41,25 +42,26 @@ public class Player extends Entity {
     @Override
     public void tick() {
         this.direction = Orientation.NONE;
-
         if (keyHandler.upPressed) {
-            this.worldY -= this.speed;
             this.direction = Orientation.UP;
-        }
-
-        if (keyHandler.downPressed) {
-            this.worldY += this.speed;
+        } else if (keyHandler.downPressed) {
             this.direction = Orientation.DOWN;
-        }
-
-        if (keyHandler.leftPressed) {
-            this.worldX -= this.speed;
+        } else if (keyHandler.leftPressed) {
             this.direction = Orientation.LEFT;
+        } else if (keyHandler.rightPressed) {
+            this.direction = Orientation.RIGHT;
         }
 
-        if (keyHandler.rightPressed) {
-            this.worldX += this.speed;
-            this.direction = Orientation.RIGHT;
+        this.colliding = false;
+        panel.collisionChecker.checkTile(this);
+
+        if (!this.colliding) {
+            switch (this.direction) {
+                case UP -> this.worldY -= this.speed;
+                case DOWN -> this.worldY += this.speed;
+                case LEFT -> this.worldX -= this.speed;
+                case RIGHT -> this.worldX += this.speed;
+            }
         }
 
         frame++;
@@ -83,5 +85,11 @@ public class Player extends Entity {
         };
 
         g2.drawImage(image, screenX, screenY, panel.TILE_SIZE, panel.TILE_SIZE, null);
+
+        // drawing the hit box
+        g2.setColor(Color.RED);
+        if (isColliding())
+            g2.setColor(Color.WHITE);
+        g2.draw(collisionBox);
     }
 }

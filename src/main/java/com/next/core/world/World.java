@@ -13,8 +13,8 @@ import java.io.InputStreamReader;
 public class World {
     private SpriteLoader spriteLoader;
     private GamePanel panel;
-    private Tile[] tiles;
-    private int tileMap[][];
+    public Tile[] tiles;
+    public int[][] tileMap;
 
     public World(GamePanel panel, SpriteLoader loader) {
         this.spriteLoader = loader;
@@ -28,10 +28,10 @@ public class World {
 
     private void loadTiles() {
         tiles[0] = new Tile(spriteLoader.getSprite(0), false);  // grass
-        tiles[1] = new Tile(spriteLoader.getSprite(1), false);  // wall
-        tiles[2] = new Tile(spriteLoader.getSprite(25), false); // water
+        tiles[1] = new Tile(spriteLoader.getSprite(1), true);  // wall
+        tiles[2] = new Tile(spriteLoader.getSprite(25), true); // water
         tiles[3] = new Tile(spriteLoader.getSprite(27), false); // dirt
-        tiles[4] = new Tile(spriteLoader.getSprite(26), false); // tree
+        tiles[4] = new Tile(spriteLoader.getSprite(26), true); // tree
         tiles[5] = new Tile(spriteLoader.getSprite(28), false); // sand
     }
 
@@ -65,7 +65,6 @@ public class World {
 
             while (col < panel.MAX_WORD_COL) {
                 int tileIndex = tileMap[row][col];
-                var image = tiles[tileIndex].getImage();
 
                 int worldX = col * panel.TILE_SIZE;
                 int worldY = row * panel.TILE_SIZE;
@@ -77,7 +76,14 @@ public class World {
                         worldY + panel.TILE_SIZE > panel.player.getWorldY() - panel.player.getScreenY() &&
                         worldY - panel.TILE_SIZE < panel.player.getWorldY() + panel.player.getScreenY()
                 ) {
-                    g2.drawImage(image, x, y, panel.TILE_SIZE, panel.TILE_SIZE, null);
+                    var tile = tiles[tileIndex];
+                    g2.drawImage(tile.getImage(), x, y, panel.TILE_SIZE, panel.TILE_SIZE, null);
+
+                    if (tile.isSolid()) {   // drawing the hit box
+                        g2.setColor(Color.RED);
+                        Rectangle r = new Rectangle(x, y, panel.TILE_SIZE, panel.TILE_SIZE);
+                        g2.draw(r);
+                    }
                 }
                 col++;
             }
