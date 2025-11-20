@@ -18,8 +18,8 @@ public class Window {
         window.setTitle("Project Mercury");
     }
 
-    public void open(KeyHandler keyHandler) {
-        panel = new GamePanel(keyHandler);
+    public void open(KeyHandler keyHandler, SpriteLoader spriteLoader) {
+        panel = new GamePanel(keyHandler, spriteLoader);
         window.add(panel);
 
         window.pack();

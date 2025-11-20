@@ -57,7 +57,11 @@ public class SpriteLoader {
         return images;
     }
 
-    private int getIndexByCoordinates(int x, int y) {
+    public BufferedImage getSprite(int index) {
+        return images[index];
+    }
+
+    public BufferedImage getSprite(int x, int y) {
         if (x % tileWidth != 0 || y % tileHeight != 0) {
             throw new RuntimeException("Invalid coordinates!");
         }
@@ -65,11 +69,9 @@ public class SpriteLoader {
         int col = x / tileWidth;
         int row = y / tileHeight;
 
-        return row * rows + col;
-    }
+        int index = row * rows + col;
 
-    public BufferedImage getSprite(int x, int y) {
-        return images[getIndexByCoordinates(x, y)];
+        return images[index];
     }
 
     public void setMainSprite(Entity e, int index) {

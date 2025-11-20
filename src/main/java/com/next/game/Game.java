@@ -1,5 +1,6 @@
 package com.next.game;
 
+import com.next.core.world.World;
 import com.next.graphics.GamePanel;
 import com.next.graphics.SpriteLoader;
 import com.next.graphics.SpriteSheet;
@@ -27,12 +28,13 @@ public class Game implements Runnable{
 
     public synchronized void start() {
         isRunning = true;
-        window.open(keyHandler);
 
         try {
             spriteSheet = new SpriteSheet("/spritesheet.png");
-            int tileSize = window.getPanel().ORIGINAL_TILE_SIZE;
-            spriteLoader = new SpriteLoader(spriteSheet, 25, tileSize, tileSize, 10, 10);
+            int tileSize = 16; // window.getPanel().ORIGINAL_TILE_SIZE; // Should get this value from the same place as the panel
+            spriteLoader = new SpriteLoader(spriteSheet, 26, tileSize, tileSize, 10, 10);
+
+            window.open(keyHandler, spriteLoader);
             spriteLoader.setPlayerSprites(window.getPanel().player);
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
