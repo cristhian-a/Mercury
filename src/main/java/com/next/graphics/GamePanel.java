@@ -1,6 +1,6 @@
 package com.next.graphics;
 
-import com.next.core.entity.Player;
+import com.next.core.model.entity.Player;
 import com.next.io.KeyHandler;
 
 import javax.swing.*;
@@ -8,10 +8,10 @@ import java.awt.*;
 
 public class GamePanel extends JPanel {
 
-    private final int ORIGINAL_TILE_SIZE = 16;  // 16x16
     private final int SCALE = 3;
     private final int MAX_SCREEN_COL = 16;
     private final int MAX_SCREEN_ROW = 12;
+    public final int ORIGINAL_TILE_SIZE = 16;  // 16x16
 
     public final int TILE_SIZE;
     public final int WIDTH;

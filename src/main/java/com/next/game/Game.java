@@ -1,8 +1,12 @@
 package com.next.game;
 
+import com.next.graphics.GamePanel;
+import com.next.graphics.SpriteLoader;
+import com.next.graphics.SpriteSheet;
 import com.next.graphics.Window;
 import com.next.io.KeyHandler;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,6 +17,9 @@ public class Game implements Runnable{
     private Window window;
     private KeyHandler keyHandler;
 
+    private SpriteSheet spriteSheet;
+    private SpriteLoader spriteLoader;
+
     public Game() {
         window = new Window();
         keyHandler = new KeyHandler();
@@ -21,6 +28,15 @@ public class Game implements Runnable{
     public synchronized void start() {
         isRunning = true;
         window.open(keyHandler);
+
+        try {
+            spriteSheet = new SpriteSheet("/spritesheet.png");
+            int tileSize = window.getPanel().ORIGINAL_TILE_SIZE;
+            spriteLoader = new SpriteLoader(spriteSheet, 25, tileSize, tileSize, 10, 10);
+            spriteLoader.setPlayerSprites(window.getPanel().player);
+        } catch (IOException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         mainThread = new Thread(this);
         mainThread.start();
