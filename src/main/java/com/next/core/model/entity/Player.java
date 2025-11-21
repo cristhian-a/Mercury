@@ -23,7 +23,7 @@ public class Player extends Entity {
         this.screenY = panel.HEIGHT / 2 - (panel.TILE_SIZE / 2);
 
         // adjust box position in relation to the player
-        this.collisionBox = new Rectangle(screenX + 8, screenY + 12, 32, 32);
+        this.collisionBox = new Rectangle(screenX + 8, screenY + 16, 32, 32);
         this.colliding = true;
 
         setDefaultValues();
@@ -32,7 +32,7 @@ public class Player extends Entity {
     public void setDefaultValues() {
         this.worldX = panel.TILE_SIZE * 23;
         this.worldY = panel.TILE_SIZE * 21;
-        this.speed = 4;
+        this.speed = 5;
 
         this.maxIndex = 1;
         this.frameTransitionRate = 20;
@@ -87,9 +87,6 @@ public class Player extends Entity {
         g2.drawImage(image, screenX, screenY, panel.TILE_SIZE, panel.TILE_SIZE, null);
 
         // drawing the hit box
-        g2.setColor(Color.RED);
-        if (isColliding())
-            g2.setColor(Color.WHITE);
-        g2.draw(collisionBox);
+        super.render(g2);
     }
 }

@@ -1,5 +1,6 @@
 package com.next.graphics;
 
+import com.next.game.Game;
 import com.next.io.KeyHandler;
 import lombok.Getter;
 
@@ -9,17 +10,19 @@ import javax.swing.JFrame;
 public class Window {
 
     private final JFrame window;
+    private final Game game;
     private GamePanel panel;
 
-    public Window() {
+    public Window(Game game) {
         window = new JFrame();
+        this.game = game;
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Project Mercury");
     }
 
-    public void open(KeyHandler keyHandler, SpriteLoader spriteLoader) {
-        panel = new GamePanel(keyHandler, spriteLoader);
+    public void open() {
+        panel = new GamePanel(game);
         window.add(panel);
 
         window.pack();

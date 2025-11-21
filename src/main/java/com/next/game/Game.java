@@ -1,7 +1,6 @@
 package com.next.game;
 
-import com.next.core.world.World;
-import com.next.graphics.GamePanel;
+import com.next.core.model.factory.AssetFactory;
 import com.next.graphics.SpriteLoader;
 import com.next.graphics.SpriteSheet;
 import com.next.graphics.Window;
@@ -13,16 +12,15 @@ import java.util.logging.Logger;
 
 public class Game implements Runnable{
 
-    private Thread mainThread;
-    private boolean isRunning;
-    private Window window;
-    private KeyHandler keyHandler;
-
-    private SpriteSheet spriteSheet;
-    private SpriteLoader spriteLoader;
+    public Thread mainThread;
+    public boolean isRunning;
+    public Window window;
+    public KeyHandler keyHandler;
+    public SpriteSheet spriteSheet;
+    public SpriteLoader spriteLoader;
 
     public Game() {
-        window = new Window();
+        window = new Window(this);
         keyHandler = new KeyHandler();
     }
 
@@ -34,8 +32,9 @@ public class Game implements Runnable{
             int tileSize = 16; // window.getPanel().ORIGINAL_TILE_SIZE; // Should get this value from the same place as the panel
             spriteLoader = new SpriteLoader(spriteSheet, 100, tileSize, tileSize, 10, 10);
 
-            window.open(keyHandler, spriteLoader);
+            window.open();  // fix problem with panel only being created after .open() is called
             spriteLoader.setPlayerSprites(window.getPanel().player);
+            window.getPanel().setup();
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }

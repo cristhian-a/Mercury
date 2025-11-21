@@ -79,11 +79,12 @@ public class World {
                     var tile = tiles[tileIndex];
                     g2.drawImage(tile.getImage(), x, y, panel.TILE_SIZE, panel.TILE_SIZE, null);
 
-                    if (tile.isSolid()) {   // drawing the hit box
-                        g2.setColor(Color.RED);
-                        Rectangle r = new Rectangle(x, y, panel.TILE_SIZE, panel.TILE_SIZE);
-                        g2.draw(r);
-                    }
+//                    // drawing collision box
+//                    if (tile.isSolid()) {
+//                        g2.setColor(Color.RED);
+//                        Rectangle r = new Rectangle(x, y, panel.TILE_SIZE, panel.TILE_SIZE);
+//                        g2.draw(r);
+//                    }
                 }
                 col++;
             }

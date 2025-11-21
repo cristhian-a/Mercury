@@ -30,7 +30,13 @@ public abstract class Entity {
     protected boolean colliding;
 
     public abstract void tick();
-    public abstract void render(Graphics2D g2);
+    public void render(Graphics2D g2) {
+        // drawing the hit box
+        g2.setColor(Color.RED);
+        if (isColliding())
+            g2.setColor(Color.WHITE);
+        g2.draw(collisionBox);
+    }
 
     public enum Orientation {
         NONE, UP, DOWN, LEFT, RIGHT

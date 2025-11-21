@@ -1,9 +1,11 @@
 package com.next.graphics;
 
 import com.next.core.model.entity.Player;
+import com.next.core.model.entity.Thing;
+import com.next.core.model.factory.AssetFactory;
 import com.next.core.world.CollisionChecker;
 import com.next.core.world.World;
-import com.next.io.KeyHandler;
+import com.next.game.Game;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +21,7 @@ public class GamePanel extends JPanel {
     public final int WIDTH;
     public final int HEIGHT;
 
-    private SpriteLoader spriteLoader;
+    public final Game game;
 
     // World setting
     public final int MAX_WORD_COL;
@@ -29,10 +31,12 @@ public class GamePanel extends JPanel {
     public World world;
     public CollisionChecker collisionChecker;
 
-    private KeyHandler keyHandler;
     public Player player;
 
-    public GamePanel(KeyHandler keyHandler, SpriteLoader spriteLoader) {
+    public AssetFactory assetFactory;
+    public Thing[] objects;
+
+    public GamePanel(Game game) {
         super();
         TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
         WIDTH = TILE_SIZE * MAX_SCREEN_COL;
@@ -43,18 +47,23 @@ public class GamePanel extends JPanel {
         WORLD_WIDTH = TILE_SIZE * MAX_WORD_COL;
         WORLD_HEIGHT = TILE_SIZE * MAX_WORLD_ROW;
 
-        this.keyHandler = keyHandler;
+        this.game = game;
 
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
-        this.addKeyListener(keyHandler);
+        this.addKeyListener(game.keyHandler);
         this.setFocusable(true);
 
-        player = new Player(this, keyHandler);
-        world = new World(this, spriteLoader);
+        this.player = new Player(this, game.keyHandler);
+        this.world = new World(this, game.spriteLoader);
+        this.assetFactory = new AssetFactory(this, game.spriteLoader);
 
-        collisionChecker = new CollisionChecker(this);
+        this.collisionChecker = new CollisionChecker(this);
+    }
+
+    public void setup() {
+        objects = assetFactory.getObjects(10);
     }
 
     @Override
@@ -63,6 +72,12 @@ public class GamePanel extends JPanel {
 
         Graphics2D g2 = (Graphics2D) g;
         world.render(g2);
+
+        for (Thing object : objects) {
+            if (object != null) {
+                object.render(g2, this);
+            }
+        }
 
         player.render(g2);
         g2.dispose();
