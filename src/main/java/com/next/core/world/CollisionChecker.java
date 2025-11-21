@@ -60,4 +60,46 @@ public class CollisionChecker {
             }
         }
     }
+
+    public int checkObjectCollision(Entity e, boolean isPlayer) {
+        int index = 999;
+
+        for (int i = 0; i < panel.objects.length; i++) {
+            var o = panel.objects[i];
+            var playerBox = e.getCollisionBox();
+            if (o != null && e.getDirection() != Entity.Orientation.NONE) {
+
+                int originalX = playerBox.x;
+                int originalY = playerBox.y;
+                int originalWidth = playerBox.width;
+                int originalHeight = playerBox.height;
+
+                // setting future position to check collision
+                switch (e.getDirection()) {
+                    case UP -> playerBox.y = playerBox.y - e.getSpeed();
+                    case DOWN -> playerBox.y = playerBox.y + e.getSpeed();
+                    case LEFT -> playerBox.x = playerBox.x - e.getSpeed();
+                    case RIGHT -> playerBox.x = playerBox.x + e.getSpeed();
+                }
+
+                if (playerBox.intersects(o.getCollisionBox())) {
+                    if (o.isSolid()) {
+                        e.setColliding(true);
+                    }
+
+                    if (isPlayer) {
+                        index = i;
+                    }
+                }
+
+                // restoring values to their present state
+                playerBox.x = originalX;
+                playerBox.y = originalY;
+                playerBox.width = originalWidth;
+                playerBox.height = originalHeight;
+            }
+        }
+
+        return index;
+    }
 }

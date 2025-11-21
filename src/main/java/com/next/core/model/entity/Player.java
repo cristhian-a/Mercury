@@ -14,6 +14,7 @@ public class Player extends Entity {
 
     private GamePanel panel;
     private KeyHandler keyHandler;
+    private int keysHeld;
 
     public Player(GamePanel panel, KeyHandler keyHandler) {
         this.panel = panel;
@@ -24,6 +25,8 @@ public class Player extends Entity {
 
         // adjust box position in relation to the player
         this.collisionBox = new Rectangle(screenX + 8, screenY + 16, 32, 32);
+        this.collisionBoxDefaultX = collisionBox.x;
+        this.collisionBoxDefaultY = collisionBox.y;
         this.colliding = true;
 
         setDefaultValues();
@@ -37,6 +40,27 @@ public class Player extends Entity {
         this.maxIndex = 1;
         this.frameTransitionRate = 20;
         this.direction = Orientation.NONE;
+    }
+
+    public void pickupObject(int i) {
+        if (i <= panel.objects.length) {
+            var obj = panel.objects[i];
+            switch (obj.name) {
+                case "Key" -> {
+                    keysHeld++;
+                    panel.objects[i] = null;
+                    System.out.println("AAAAI CHAVES: " + keysHeld);
+                }
+//                case "Chest" -> return;
+                case "Door" -> {
+                    if (keysHeld > 0) {
+                        keysHeld--;
+                        panel.objects[i] = null;
+                    }
+                    System.out.println("AAAAI CHAVES: " + keysHeld);
+                }
+            }
+        }
     }
 
     @Override
@@ -54,6 +78,9 @@ public class Player extends Entity {
 
         this.colliding = false;
         panel.collisionChecker.checkTile(this);
+
+        int objIndex = panel.collisionChecker.checkObjectCollision(this, true);
+        pickupObject(objIndex);
 
         if (!this.colliding) {
             switch (this.direction) {

@@ -47,7 +47,7 @@ public class AssetFactory {
         obj5.setImage(spriteLoader.getSprite(29));   // Door
 
         Thing obj6 = new Chest();
-        obj6.setWorldX(9 * panel.TILE_SIZE);
+        obj6.setWorldX(10 * panel.TILE_SIZE);
         obj6.setWorldY(7 * panel.TILE_SIZE);
         obj6.setImage(spriteLoader.getSprite(30));   // Chest
 

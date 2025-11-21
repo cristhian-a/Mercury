@@ -13,9 +13,16 @@ import java.awt.image.BufferedImage;
 public class Thing {
     protected BufferedImage image;
     protected String name;
-    protected boolean colliding;
+    protected boolean solid;
     protected int worldX;
     protected int worldY;
+    protected Rectangle collisionBox;
+    protected int collisionBoxDefaultX;
+    protected int collisionBoxDefaultY;
+
+    public Thing() {
+        collisionBox = new Rectangle(worldX, worldY, 48, 48);
+    }
 
     public void render(Graphics2D g2, GamePanel panel) {
         int x = worldX - panel.player.getWorldX() + panel.player.getScreenX();
@@ -27,6 +34,14 @@ public class Thing {
                 worldY - panel.TILE_SIZE < panel.player.getWorldY() + panel.player.getScreenY()
         ) {
             g2.drawImage(image, x, y, panel.TILE_SIZE, panel.TILE_SIZE, null);
+
+            // updating collision box values
+            collisionBox.x = x;
+            collisionBox.y = y;
+
+            // drawing the box
+            g2.setColor(Color.RED);
+            g2.draw(collisionBox);
         }
     }
 }

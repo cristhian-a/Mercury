@@ -27,6 +27,8 @@ public abstract class Entity {
     protected Orientation direction;
 
     protected Rectangle collisionBox;
+    protected int collisionBoxDefaultX;
+    protected int collisionBoxDefaultY;
     protected boolean colliding;
 
     public abstract void tick();
