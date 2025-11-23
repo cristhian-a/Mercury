@@ -6,6 +6,7 @@ import com.next.core.model.factory.AssetFactory;
 import com.next.core.world.CollisionChecker;
 import com.next.core.world.World;
 import com.next.game.Game;
+import com.next.io.Sound;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,6 +65,7 @@ public class GamePanel extends JPanel {
 
     public void setup() {
         objects = assetFactory.getObjects(10);
+        playMusic(Sound.Track.WIND);
     }
 
     @Override
@@ -81,5 +83,20 @@ public class GamePanel extends JPanel {
 
         player.render(g2);
         g2.dispose();
+    }
+
+    public void playMusic(Sound.Track track) {
+        game.sound.setFile(track);
+        game.sound.play();
+        game.sound.loop();
+    }
+
+    public void stopMusic() {
+        game.sound.stop();
+    }
+
+    public void playSFX(Sound.Track track) {
+        game.sound.setFile(track);
+        game.sound.play();
     }
 }
