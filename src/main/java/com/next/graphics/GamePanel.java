@@ -86,17 +86,17 @@ public class GamePanel extends JPanel {
     }
 
     public void playMusic(Sound.Track track) {
-        game.sound.setFile(track);
-        game.sound.play();
-        game.sound.loop();
+        game.music.setFile(track);
+        game.music.play();
+        game.music.loop();
     }
 
     public void stopMusic() {
-        game.sound.stop();
+        game.music.stop();
     }
 
     public void playSFX(Sound.Track track) {
-        game.sound.setFile(track);
-        game.sound.play();
+        game.sfx.setFile(track);
+        game.sfx.play();
     }
 }
