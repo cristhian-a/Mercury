@@ -1,9 +1,6 @@
 package com.next.core.model.factory;
 
-import com.next.core.model.entity.Chest;
-import com.next.core.model.entity.Door;
-import com.next.core.model.entity.Key;
-import com.next.core.model.entity.Thing;
+import com.next.core.model.entity.*;
 import com.next.graphics.GamePanel;
 import com.next.graphics.SpriteLoader;
 import lombok.AllArgsConstructor;
@@ -51,6 +48,11 @@ public class AssetFactory {
         obj6.setWorldY(7 * panel.TILE_SIZE);
         obj6.setImage(spriteLoader.getSprite(30));   // Chest
 
+        Thing obj7 = new Spell();
+        obj7.setWorldX(37 * panel.TILE_SIZE);
+        obj7.setWorldY(42 * panel.TILE_SIZE);
+        obj7.setImage(spriteLoader.getSprite(15));   // Spell
+
         t[0] = obj0;
         t[1] = obj1;
         t[2] = obj2;
@@ -58,6 +60,7 @@ public class AssetFactory {
         t[4] = obj4;
         t[5] = obj5;
         t[6] = obj6;
+        t[7] = obj7;
 
         return t;
     }

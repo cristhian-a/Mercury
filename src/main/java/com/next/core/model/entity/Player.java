@@ -59,6 +59,10 @@ public class Player extends Entity {
                     }
                     System.out.println("AAAAI CHAVES: " + keysHeld);
                 }
+                case "Spell" -> {
+                    speed += 5;
+                    panel.objects[i] = null;
+                }
             }
         }
     }
