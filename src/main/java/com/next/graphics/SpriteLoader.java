@@ -42,7 +42,7 @@ public class SpriteLoader {
                     break;
                 }
 
-                var img = spriteSheet.getSprite(x, y, tileWidth, tileHeight);
+                var img = spriteSheet.getSprite(x, y, tileWidth, tileHeight, scale);
                 images[index] = img;
                 index++;
 
