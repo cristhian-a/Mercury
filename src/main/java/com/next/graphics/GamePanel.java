@@ -24,6 +24,8 @@ public class GamePanel extends JPanel {
 
     public final Game game;
 
+    public final UI ui;
+
     // World setting
     public final int MAX_WORD_COL;
     public final int MAX_WORLD_ROW;
@@ -37,6 +39,8 @@ public class GamePanel extends JPanel {
     public AssetFactory assetFactory;
     public Thing[] objects;
 
+    public boolean finished;
+
     public GamePanel(Game game) {
         super();
         TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
@@ -49,6 +53,8 @@ public class GamePanel extends JPanel {
         WORLD_HEIGHT = TILE_SIZE * MAX_WORLD_ROW;
 
         this.game = game;
+
+        this.ui = new UI(this);
 
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(Color.BLACK);
@@ -82,7 +88,17 @@ public class GamePanel extends JPanel {
         }
 
         player.render(g2);
+        ui.render(g2);
+
         g2.dispose();
+    }
+
+    public void finishGame() {
+        this.finished = true;
+
+        stopMusic();
+        playSFX(Sound.Track.FANFARE);
+        game.isRunning = false;
     }
 
     public void playMusic(Sound.Track track) {

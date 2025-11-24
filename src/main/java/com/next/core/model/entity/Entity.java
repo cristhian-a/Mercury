@@ -1,5 +1,6 @@
 package com.next.core.model.entity;
 
+import com.next.game.Game;
 import lombok.Data;
 
 import java.awt.*;
@@ -32,12 +33,15 @@ public abstract class Entity {
     protected boolean colliding;
 
     public abstract void tick();
+
     public void render(Graphics2D g2) {
         // drawing the hit box
-        g2.setColor(Color.RED);
-        if (isColliding())
-            g2.setColor(Color.WHITE);
-        g2.draw(collisionBox);
+        if (Game.DISPLAY_COLLISION_BOX) {
+            g2.setColor(Color.RED);
+            if (isColliding())
+                g2.setColor(Color.WHITE);
+            g2.draw(collisionBox);
+        }
     }
 
     public enum Orientation {

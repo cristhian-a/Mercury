@@ -52,14 +52,17 @@ public class Player extends Entity {
                 case "Key" -> {
                     keysHeld++;
                     panel.objects[i] = null;
-                    System.out.println("AAAAI CHAVES: " + keysHeld);
                     panel.playSFX(Sound.Track.PICK_UP);
+                    panel.ui.displayMessage("You found a key!");
+                    System.out.println("AAAAI CHAVES: " + keysHeld);
                 }
                 case "Door" -> {
                     if (keysHeld > 0) {
                         keysHeld--;
                         panel.objects[i] = null;
                         panel.playSFX(Sound.Track.DOOR);
+                    } else {
+                        panel.ui.displayMessage("Grab a key first!");
                     }
                     System.out.println("AAAAI CHAVES: " + keysHeld);
                 }
@@ -67,6 +70,10 @@ public class Player extends Entity {
                     speed += 5;
                     panel.objects[i] = null;
                     panel.playSFX(Sound.Track.SPELL_UP);
+                    panel.ui.displayMessage("Mercury bless!!");
+                }
+                case "Chest" -> {
+                    panel.finishGame();
                 }
             }
         }

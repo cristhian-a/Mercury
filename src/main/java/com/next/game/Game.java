@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 
 public class Game implements Runnable{
 
+    public static boolean DISPLAY_COLLISION_BOX;
+
     public Thread mainThread;
     public boolean isRunning;
     public Window window;
