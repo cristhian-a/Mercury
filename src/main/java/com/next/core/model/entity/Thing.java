@@ -34,14 +34,14 @@ public class Thing {
                 worldY + panel.TILE_SIZE > panel.player.getWorldY() - panel.player.getScreenY() &&
                 worldY - panel.TILE_SIZE < panel.player.getWorldY() + panel.player.getScreenY()
         ) {
-            g2.drawImage(image, x, y, panel.TILE_SIZE, panel.TILE_SIZE, null);
+            g2.drawImage(image, x, y, null);
 
             // updating collision box values
             collisionBox.x = x;
             collisionBox.y = y;
 
             // drawing the box
-            if (Game.DISPLAY_COLLISION_BOX) {
+            if (Game.DEBUG_MODE_1) {
                 g2.setColor(Color.RED);
                 g2.draw(collisionBox);
             }

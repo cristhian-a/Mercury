@@ -36,7 +36,7 @@ public abstract class Entity {
 
     public void render(Graphics2D g2) {
         // drawing the hit box
-        if (Game.DISPLAY_COLLISION_BOX) {
+        if (Game.DEBUG_MODE_1) {
             g2.setColor(Color.RED);
             if (isColliding())
                 g2.setColor(Color.WHITE);

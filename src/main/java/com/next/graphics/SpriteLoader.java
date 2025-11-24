@@ -12,16 +12,18 @@ public class SpriteLoader {
     private final int tiles;
     private final int columns;
     private final int rows;
+    private final int scale;
 
     private final BufferedImage[] images;
 
-    public SpriteLoader(SpriteSheet sheet, int tiles, int tileWidth, int tileHeight, int columns, int rows) {
+    public SpriteLoader(SpriteSheet sheet, int tiles, int tileWidth, int tileHeight, int columns, int rows, int scale) {
         this.spriteSheet = sheet;
         this.tiles = tiles;
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
         this.columns = columns;
         this.rows = rows;
+        this.scale = scale;
 
         images = new BufferedImage[tiles];
         splitImages();

@@ -1,5 +1,6 @@
 package com.next.core.world;
 
+import com.next.game.Game;
 import com.next.graphics.GamePanel;
 import com.next.graphics.SpriteLoader;
 import com.next.io.FileReader;
@@ -16,6 +17,11 @@ public class World {
     public Tile[] tiles;
     public int[][] tileMap;
 
+    // DEBUG info
+    private int frameCounter;
+    private long start;
+    private long end;
+
     public World(GamePanel panel, SpriteLoader loader) {
         this.spriteLoader = loader;
         this.panel = panel;
@@ -28,10 +34,10 @@ public class World {
 
     private void loadTiles() {
         tiles[0] = new Tile(spriteLoader.getSprite(0), false);  // grass
-        tiles[1] = new Tile(spriteLoader.getSprite(1), true);  // wall
-        tiles[2] = new Tile(spriteLoader.getSprite(25), true); // water
+        tiles[1] = new Tile(spriteLoader.getSprite(1), true);   // wall
+        tiles[2] = new Tile(spriteLoader.getSprite(25), true);  // water
         tiles[3] = new Tile(spriteLoader.getSprite(27), false); // dirt
-        tiles[4] = new Tile(spriteLoader.getSprite(26), true); // tree
+        tiles[4] = new Tile(spriteLoader.getSprite(26), true);  // tree
         tiles[5] = new Tile(spriteLoader.getSprite(28), false); // sand
     }
 
@@ -60,6 +66,8 @@ public class World {
     public void render(Graphics2D g2) {
         int row = 0;
 
+        long start = System.nanoTime();
+
         while (row < panel.MAX_WORLD_ROW) {
             int col = 0;
 
@@ -77,7 +85,7 @@ public class World {
                         worldY - panel.TILE_SIZE < panel.player.getWorldY() + panel.player.getScreenY()
                 ) {
                     var tile = tiles[tileIndex];
-                    g2.drawImage(tile.getImage(), x, y, panel.TILE_SIZE, panel.TILE_SIZE, null);
+                    g2.drawImage(tile.getImage(), x, y, null);
 
 //                    // drawing collision box
 //                    if (tile.isSolid()) {
@@ -91,5 +99,9 @@ public class World {
 
             row++;
         }
+
+        long end = System.nanoTime();
+        if (Game.DEBUG_MODE_1) System.out.println(end - start);
+
     }
 }

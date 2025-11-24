@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Game implements Runnable{
+public class Game implements Runnable {
 
-    public static boolean DISPLAY_COLLISION_BOX;
+    public static boolean DEBUG_MODE_1;
 
     public Thread mainThread;
     public boolean isRunning;
@@ -36,7 +36,8 @@ public class Game implements Runnable{
         try {
             spriteSheet = new SpriteSheet("/sprites/spritesheet.png");
             int tileSize = 16; // window.getPanel().ORIGINAL_TILE_SIZE; // Should get this value from the same place as the panel
-            spriteLoader = new SpriteLoader(spriteSheet, 100, tileSize, tileSize, 10, 10);
+            int scale = 3;  // window.getPanel().SCALE;
+            spriteLoader = new SpriteLoader(spriteSheet, 100, tileSize, tileSize, 10, 10, scale);
 
             window.open();  // fix problem with panel only being created after .open() is called
             spriteLoader.setPlayerSprites(window.getPanel().player);
@@ -92,7 +93,7 @@ public class Game implements Runnable{
 
             // Debug info *(frame rate)*
             if (System.currentTimeMillis() - timer >= 1000) {
-                System.out.println("FPS: " + frames);
+                if (DEBUG_MODE_1) System.out.println("FPS: " + frames);
                 frames = 0;
                 timer = System.currentTimeMillis();
             }

@@ -41,7 +41,7 @@ public class UI {
         int baseX = 25;
         for (int i = 0; i < panel.player.getKeysHeld(); i++) {
             int x = baseX + ((panel.TILE_SIZE + 10) * i);
-            g2.drawImage(image_key, x, 10, panel.TILE_SIZE, panel.TILE_SIZE, null);
+            g2.drawImage(image_key, x, 10, null);
         }
 
         if (messageOn) {
