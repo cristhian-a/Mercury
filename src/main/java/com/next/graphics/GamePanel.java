@@ -6,6 +6,7 @@ import com.next.core.model.factory.AssetFactory;
 import com.next.core.world.CollisionChecker;
 import com.next.core.world.World;
 import com.next.game.Game;
+import com.next.io.Sound;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +24,8 @@ public class GamePanel extends JPanel {
 
     public final Game game;
 
+    public final UI ui;
+
     // World setting
     public final int MAX_WORD_COL;
     public final int MAX_WORLD_ROW;
@@ -36,6 +39,8 @@ public class GamePanel extends JPanel {
     public AssetFactory assetFactory;
     public Thing[] objects;
 
+    public boolean finished;
+
     public GamePanel(Game game) {
         super();
         TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
@@ -48,6 +53,8 @@ public class GamePanel extends JPanel {
         WORLD_HEIGHT = TILE_SIZE * MAX_WORLD_ROW;
 
         this.game = game;
+
+        this.ui = new UI(this);
 
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(Color.BLACK);
@@ -64,6 +71,7 @@ public class GamePanel extends JPanel {
 
     public void setup() {
         objects = assetFactory.getObjects(10);
+        playMusic(Sound.Track.WIND);
     }
 
     @Override
@@ -80,6 +88,31 @@ public class GamePanel extends JPanel {
         }
 
         player.render(g2);
+        ui.render(g2);
+
         g2.dispose();
+    }
+
+    public void finishGame() {
+        this.finished = true;
+
+        stopMusic();
+        playSFX(Sound.Track.FANFARE);
+        game.isRunning = false;
+    }
+
+    public void playMusic(Sound.Track track) {
+        game.music.setFile(track);
+        game.music.play();
+        game.music.loop();
+    }
+
+    public void stopMusic() {
+        game.music.stop();
+    }
+
+    public void playSFX(Sound.Track track) {
+        game.sfx.setFile(track);
+        game.sfx.play();
     }
 }

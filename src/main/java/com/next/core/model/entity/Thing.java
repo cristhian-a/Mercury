@@ -1,5 +1,6 @@
 package com.next.core.model.entity;
 
+import com.next.game.Game;
 import com.next.graphics.GamePanel;
 import lombok.Data;
 
@@ -40,8 +41,10 @@ public class Thing {
             collisionBox.y = y;
 
             // drawing the box
-            g2.setColor(Color.RED);
-            g2.draw(collisionBox);
+            if (Game.DISPLAY_COLLISION_BOX) {
+                g2.setColor(Color.RED);
+                g2.draw(collisionBox);
+            }
         }
     }
 }

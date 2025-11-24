@@ -1,10 +1,10 @@
 package com.next.game;
 
-import com.next.core.model.factory.AssetFactory;
 import com.next.graphics.SpriteLoader;
 import com.next.graphics.SpriteSheet;
 import com.next.graphics.Window;
 import com.next.io.KeyHandler;
+import com.next.io.Sound;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -12,15 +12,21 @@ import java.util.logging.Logger;
 
 public class Game implements Runnable{
 
+    public static boolean DISPLAY_COLLISION_BOX;
+
     public Thread mainThread;
     public boolean isRunning;
     public Window window;
+    public Sound music;
+    public Sound sfx;
     public KeyHandler keyHandler;
     public SpriteSheet spriteSheet;
     public SpriteLoader spriteLoader;
 
     public Game() {
         window = new Window(this);
+        music = new Sound();
+        sfx = new Sound();
         keyHandler = new KeyHandler();
     }
 
@@ -28,7 +34,7 @@ public class Game implements Runnable{
         isRunning = true;
 
         try {
-            spriteSheet = new SpriteSheet("/spritesheet.png");
+            spriteSheet = new SpriteSheet("/sprites/spritesheet.png");
             int tileSize = 16; // window.getPanel().ORIGINAL_TILE_SIZE; // Should get this value from the same place as the panel
             spriteLoader = new SpriteLoader(spriteSheet, 100, tileSize, tileSize, 10, 10);
 

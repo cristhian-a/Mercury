@@ -2,6 +2,7 @@ package com.next.core.model.entity;
 
 import com.next.graphics.GamePanel;
 import com.next.io.KeyHandler;
+import com.next.io.Sound;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,6 +16,8 @@ public class Player extends Entity {
     private GamePanel panel;
     private KeyHandler keyHandler;
     private int keysHeld;
+
+    private boolean playPluckSFX;
 
     public Player(GamePanel panel, KeyHandler keyHandler) {
         this.panel = panel;
@@ -49,19 +52,28 @@ public class Player extends Entity {
                 case "Key" -> {
                     keysHeld++;
                     panel.objects[i] = null;
+                    panel.playSFX(Sound.Track.PICK_UP);
+                    panel.ui.displayMessage("You found a key!");
                     System.out.println("AAAAI CHAVES: " + keysHeld);
                 }
-//                case "Chest" -> return;
                 case "Door" -> {
                     if (keysHeld > 0) {
                         keysHeld--;
                         panel.objects[i] = null;
+                        panel.playSFX(Sound.Track.DOOR);
+                    } else {
+                        panel.ui.displayMessage("Grab a key first!");
                     }
                     System.out.println("AAAAI CHAVES: " + keysHeld);
                 }
                 case "Spell" -> {
                     speed += 5;
                     panel.objects[i] = null;
+                    panel.playSFX(Sound.Track.SPELL_UP);
+                    panel.ui.displayMessage("Mercury bless!!");
+                }
+                case "Chest" -> {
+                    panel.finishGame();
                 }
             }
         }
@@ -101,6 +113,15 @@ public class Player extends Entity {
             spriteIndex++;
             if (spriteIndex > maxIndex) {
                 spriteIndex = 0;
+            }
+
+            if (this.direction != Orientation.NONE) {
+                panel.playSFX(Sound.Track.WALK);
+            }
+
+            if (playPluckSFX) {
+                playPluckSFX = false;
+                panel.playSFX(Sound.Track.PLUCK);
             }
         }
     }
