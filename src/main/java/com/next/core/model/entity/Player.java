@@ -136,7 +136,7 @@ public class Player extends Entity {
             default -> this.sprite;
         };
 
-        g2.drawImage(image, screenX, screenY, panel.TILE_SIZE, panel.TILE_SIZE, null);
+        g2.drawImage(image, screenX, screenY, null);
 
         // drawing the hit box
         super.render(g2);

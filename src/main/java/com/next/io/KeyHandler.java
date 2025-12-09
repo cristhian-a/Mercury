@@ -1,5 +1,6 @@
 package com.next.io;
 
+import com.next.game.Game;
 import com.next.system.KeyboardBind;
 
 import java.awt.event.KeyEvent;
@@ -21,6 +22,7 @@ public class KeyHandler implements KeyListener {
         if (code == KeyboardBind.MOVE_DOWN) downPressed = true;
         if (code == KeyboardBind.MOVE_LEFT) leftPressed = true;
         if (code == KeyboardBind.MOVE_RIGHT) rightPressed = true;
+        if (code == KeyboardBind.DEBUG_MODE_1) Game.DEBUG_MODE_1 = !Game.DEBUG_MODE_1;
     }
 
     @Override

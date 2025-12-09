@@ -70,7 +70,7 @@ public class GamePanel extends JPanel {
     }
 
     public void setup() {
-        objects = assetFactory.getObjects(10);
+        objects = assetFactory.getObjects();
         playMusic(Sound.Track.WIND);
     }
 

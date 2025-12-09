@@ -10,8 +10,8 @@ public class AssetFactory {
     private GamePanel panel;
     private SpriteLoader spriteLoader;
 
-    public Thing[] getObjects(int length) {
-        Thing[] t = new Thing[length];
+    public Thing[] getObjects() {
+        Thing[] t = new Thing[10];
 
         Thing obj0 = new Key();
         obj0.setWorldX(23 * panel.TILE_SIZE);
